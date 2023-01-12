@@ -1,0 +1,107 @@
+MainScreen:
+#background
+    canvas.before:
+        Rectangle:
+            source: 'bg.png'
+            pos: self.pos
+            size: self.size
+
+#base boxlayout
+
+    MDBoxLayout:
+        orientation: 'vertical'
+
+#boxlayout for title INGBAR
+
+        MDBoxLayout:
+            size_hint: 1, 0.25
+
+            MDLabel:
+                text: 'INGBAR'
+                halign: 'center'
+                font_name: 'Lemon-Regular.ttf'
+                color: 0.806, 0.494, 0.33
+                font_size: 80
+
+#boxlayout for image
+
+        MDBoxLayout:
+            padding: dp(15)
+            size_hint: 0.7, 0.8
+            pos_hint: {'center_x': 0.5, 'center_y': 0.7}
+
+            Image:
+                source: 'picture_main.png'
+                size: self.texture_size
+
+#boxlayout to hold buttons
+
+        MDBoxLayout:
+            orientation: 'vertical'
+            size_hint: 0.54, 0.3
+            padding: dp(12)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.7}
+
+            MDGridLayout:
+                cols: 1
+                rows: 3
+
+                Button:
+
+                    margin_bottom: 20
+                    text: 'Scan a barcode'
+                    font_name: 'LexendDeca-VariableFont_wght.ttf'
+                    font_size: 14
+                    background_normal: ''
+                    background_color: 0, 0, 0, 0
+
+                    canvas.before:
+                        Color:
+                            rgb: 191/255, 126/255, 120/255, 1
+                        RoundedRectangle:
+                            size: self.size
+                            pos: self.pos
+                            radius: [20]
+                    on_press: root.scan()
+
+#label for space between buttons
+
+                MDLabel:
+                    size_hint: 0.1, 0.4
+                    text: '   '
+
+                Button:
+                    text: 'Search for ingredients'
+                    font_name: 'LexendDeca-VariableFont_wght.ttf'
+                    font_size: 14
+                    background_normal: ''
+                    background_color: 0, 0, 0, 0
+
+                    canvas.before:
+                        Color:
+                            rgb: 155/255, 187/255, 169/255, 1
+                        RoundedRectangle:
+                            size: self.size
+                            pos: self.pos
+                            radius: [20]
+
+
+#boxloyout to hold icons in grid layout
+
+        MDBoxLayout:
+            orientation: 'vertical'
+            size_hint: 0.5, 0.2
+            padding: dp(12)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.7}
+
+            MDGridLayout:
+                cols: 3
+
+                MDIconButton:
+                    icon: 'account-circle-outline'
+
+                MDIconButton:
+                    icon: 'instagram'
+
+                MDIconButton:
+                    icon: 'facebook'

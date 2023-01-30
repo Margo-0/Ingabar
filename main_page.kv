@@ -1,5 +1,13 @@
-MainScreen:
+WindowManager:
+    MainScreen:
+    ScanBarcodePage:
+    SearchIngredientsPage:
+    InformationPage:
+
+<MainScreen>:
 #background
+
+    name: 'main'
     canvas.before:
         Rectangle:
             source: 'bg.png'
@@ -11,7 +19,7 @@ MainScreen:
     MDBoxLayout:
         orientation: 'vertical'
 
-#boxlayout for title INGBAR
+#boxlayout for title
 
         MDBoxLayout:
             size_hint: 1, 0.25
@@ -21,13 +29,13 @@ MainScreen:
                 halign: 'center'
                 font_name: 'Lemon-Regular.ttf'
                 color: 0.806, 0.494, 0.33
-                font_size: 80
+                font_size: '80sp'
 
 #boxlayout for image
 
         MDBoxLayout:
-            padding: dp(15)
-            size_hint: 0.7, 0.8
+            padding: sp(10)
+            size_hint: 1, 1
             pos_hint: {'center_x': 0.5, 'center_y': 0.7}
 
             Image:
@@ -39,8 +47,8 @@ MainScreen:
         MDBoxLayout:
             orientation: 'vertical'
             size_hint: 0.54, 0.3
-            padding: dp(12)
-            pos_hint: {'center_x': 0.5, 'center_y': 0.7}
+            padding: sp(12)
+            pos_hint: {'center_x': 0.5, 'center_y': 1}
 
             MDGridLayout:
                 cols: 1
@@ -48,10 +56,9 @@ MainScreen:
 
                 Button:
 
-                    margin_bottom: 20
                     text: 'Scan a barcode'
                     font_name: 'LexendDeca-VariableFont_wght.ttf'
-                    font_size: 14
+                    font_size: '14sp'
                     background_normal: ''
                     background_color: 0, 0, 0, 0
 
@@ -62,7 +69,10 @@ MainScreen:
                             size: self.size
                             pos: self.pos
                             radius: [20]
-                    on_press: root.scan()
+
+                    on_press:
+                        app.root.current = 'second_page'
+                        root.manager.transition.direction = 'left'
 
 #label for space between buttons
 
@@ -73,7 +83,7 @@ MainScreen:
                 Button:
                     text: 'Search for ingredients'
                     font_name: 'LexendDeca-VariableFont_wght.ttf'
-                    font_size: 14
+                    font_size: '14sp'
                     background_normal: ''
                     background_color: 0, 0, 0, 0
 
@@ -85,23 +95,546 @@ MainScreen:
                             pos: self.pos
                             radius: [20]
 
+                    on_press:
+                        app.root.current = 'thr_page'
+                        root.manager.transition.direction = 'left'
+
 
 #boxloyout to hold icons in grid layout
 
         MDBoxLayout:
+
             orientation: 'vertical'
             size_hint: 0.5, 0.2
-            padding: dp(12)
             pos_hint: {'center_x': 0.5, 'center_y': 0.7}
+
+            MDGridLayout:
+                cols: 3
+                pos_hint: {'center_x': 0.5}
+
+                MDIconButton:
+                    size_hint: 1,1
+                    col: 1
+                    icon: 'account-circle-outline'
+
+                MDIconButton:
+                    size_hint: 1,1
+                    col: 2
+                    icon: 'instagram'
+
+                MDIconButton:
+                    size_hint: 1,1
+                    col: 3
+                    icon: 'facebook'
+
+#################################################################
+####### SECOND PAGE - FOR BARCODE SCANING #######################
+
+
+<ScanBarcodePage>:
+
+    name: 'second_page'
+    canvas.before:
+        Rectangle:
+            source: 'bg.png'
+            pos: self.pos
+            size: self.size
+
+    MDBoxLayout:
+        orientation: "vertical"
+        padding: 35
+        spacing: 11
+
+        #:import ZBarCam kivy_garden.zbarcam.ZBarCam
+        #:import ZBarSymbol pyzbar.pyzbar.ZBarSymbol
+        MDBoxLayout:
+            id: 'ScanField'
+            orientation: 'vertical'
+            pos_hint: {'center_x':0.5}
+            # ZBarCam:
+            #     id: zbarcam
+            #     # optional, by default checks all types
+            #     code_types: ZBarSymbol.QRCODE, ZBarSymbol.EAN13
+            #     on_symbols: root.get_product_by_ean(self.symbols)
+            # Label:
+            #     size_hint: None, None
+            #     size: self.texture_size[0], 50
+            #     text: ', '.join([str(symbol.data) for symbol in zbarcam.symbols])
+
+            #Name of the prdct
+        MDBoxLayout:
+            orientation: 'vertical'
+            pos_hint: {'center_x':0.5}
+            size_hint: .8, .12
+
+            MDLabel:
+                id: NameOfThePrdct
+                text: 'Name of the product'
+                font_name: 'LexendDeca-VariableFont_wght.ttf'
+                font_size: '14sp'
+                background_normal: ''
+                theme_text_color: "Custom"
+                text_color: "white"
+                background_color: 0, 0, 0, 0
+                halign: 'center'
+
+                canvas.before:
+                    Color:
+                        rgb: 155/255, 187/255, 169/255, 1
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+        MDBoxLayout:
+            orientation: 'vertical'
+            size_hint: 0.54, 0.15
+            pos_hint: {'center_x':0.5}
+
+            Button:
+                id: GoToProduct
+                text: 'Go to the product'
+                font_name: 'LexendDeca-VariableFont_wght.ttf'
+                font_size: '14sp'
+                background_normal: ''
+                background_color: 0, 0, 0, 0
+                # on_press: root.get_product()
+
+                canvas.before:
+                    Color:
+                        rgb: 206/255, 137/255, 100/255, 1
+                    RoundedRectangle:
+                        size: self.size
+                        pos: self.pos
+                        radius: [30]
+
+        MDBoxLayout:
+            orientation: 'vertical'
+            size_hint: .2, .15
+            pos_hint: {'center_x':0.5}
+            halign: 'center'
+
+            MDIconButton:
+                pos_hint: {'center_x':0.5}
+                halign: 'center'
+                icon: 'keyboard-backspace'
+                theme_text_color: "Custom"
+                text_color: "white"
+                background_normal: ''
+                md_bg_color: 0, 0, 0, 0
+
+
+                canvas.before:
+                    Color:
+                        rgb: 191/255, 126/255, 120/255, 1
+                    RoundedRectangle:
+                        size: self.size
+                        pos: self.pos
+                        radius: [360]
+
+                on_press:
+                    app.root.current = 'main'
+                    root.manager.transition.direction = 'right'
+
+        MDBoxLayout:
+            orientation: 'vertical'
+            size_hint: None, None
+            size: 50,10
+            MDLabel:
+                text: '  '
+
+        MDBoxLayout:
+            orientation: 'vertical'
+            size_hint: 0.5, .1
+            pos_hint: {'center_x': 0.5}
 
             MDGridLayout:
                 cols: 3
 
                 MDIconButton:
+                    size_hint: 1,1
+                    col: 1
                     icon: 'account-circle-outline'
 
                 MDIconButton:
+                    size_hint: 1,1
+                    col: 2
                     icon: 'instagram'
 
                 MDIconButton:
+                    size_hint: 1,1
+                    col: 3
                     icon: 'facebook'
+
+
+
+#################################################################
+############ THIRD PAGE - FOR SEARCHING INGREDIENTS #############
+
+<SearchIngredientsPage>:
+    name: 'thr_page'
+    #print_ingr_text_input: search_ingr_field
+    canvas.before:
+        Rectangle:
+            source: 'bg.png'
+            pos: self.pos
+            size: self.size
+
+    MDBoxLayout:
+        orientation: 'vertical'
+        padding: sp(15)
+
+
+        #for text input
+        MDBoxLayout:
+            orientation: 'vertical'
+            md_bg_color: 155/255, 187/255, 169/255, 1
+            size_hint: .9, .4
+            padding: sp(25)
+            pos_hint: {'center_x':0.5}
+            ScrollView:
+                MDTextField:
+                    id: search_ingr_field
+                    multiline: True
+                    hint_text: 'Type ingredients'
+                    icon_right: 'progress-question'
+                    tooltip_text: 'eara'
+                    theme_text_color: "Custom"
+                    text_color: "white"
+
+        #for button
+        MDBoxLayout:
+            orientation: 'vertical'
+            padding: sp(20)
+            size_hint: 0.54, None
+            pos_hint: {'center_x':0.5}
+            halign: 'center'
+
+            Button:
+                id: search_button
+                text: 'Search'
+                font_name: 'LexendDeca-VariableFont_wght.ttf'
+                font_size: '14sp'
+                background_normal: ''
+                background_color: 0, 0, 0, 0
+                #on_press: root.search()
+
+                on_press:
+                    app.root.current = 'information_page'
+                    root.manager.transition.direction = 'left'
+
+                canvas.before:
+                    Color:
+                        rgb: 206/255, 137/255, 100/255, 1
+                    RoundedRectangle:
+                        size: self.size
+                        pos: self.pos
+                        radius: [30]
+
+
+
+        MDBoxLayout:
+            orientation: 'vertical'
+            size_hint: .2, .1
+            pos_hint: {'center_x':0.5}
+            halign: 'center'
+            valign: 'center'
+
+            MDIconButton:
+                icon: 'keyboard-backspace'
+                theme_text_color: "Custom"
+                text_color: "white"
+                background_normal: ''
+                md_bg_color: 0, 0, 0, 0
+                pos_hint: {'center_x':0.5}
+                halign: 'center'
+                valign: 'center'
+
+
+                canvas.before:
+                    Color:
+                        rgb: 191/255, 126/255, 120/255, 1
+                    RoundedRectangle:
+                        size: self.size
+                        pos: self.pos
+                        radius: [360]
+
+                on_press:
+                    app.root.current = 'main'
+                    root.manager.transition.direction = 'right'
+
+        MDBoxLayout:
+            orientation: 'vertical'
+            size_hint: None, None
+            size: 50,10
+            MDLabel:
+                text: '  '
+
+        MDBoxLayout:
+            orientation: 'vertical'
+            size_hint: 0.5, .1
+            pos_hint: {'center_x': 0.5}
+            halign: 'center'
+
+            MDGridLayout:
+                cols: 3
+
+                MDIconButton:
+                    size_hint: 1,1
+                    col: 1
+                    icon: 'account-circle-outline'
+
+                MDIconButton:
+                    size_hint: 1,1
+                    col: 2
+                    icon: 'instagram'
+
+                MDIconButton:
+                    size_hint: 1,1
+                    col: 3
+                    icon: 'facebook'
+
+#################################################################
+############ FOUrth PAGE - FOR SEARCHING INGREDIENTS #############
+
+#:import Factory kivy.factory.Factory
+
+<MyPopup@Popup>:
+    auto_dismiss: True #jak sie kliknie poza okna to popup sie zamknie
+    size_hint: .8, 0.5
+    pos_hint: {'center_x': .5, 'center_y': 0.5}
+    title: 'Legend: '
+    separator_color: 108/255, 131/255, 140/255, 1
+    title_align: 'center'
+
+    MDBoxLayout:
+        orientation: 'vertical'
+        md_bg_color: 108/255, 131/255, 140/255, 1
+
+        MDLabel:
+            halign: 'left'
+            text: '-3 Podrobiony produkt'
+            font_name: 'LexendDeca-VariableFont_wght.ttf'
+            font_size: '14sp'
+            theme_text_color: 'Custom'
+            text_color: 'white'
+        MDLabel:
+            halign: 'left'
+            text: '-2 Produkt niezgodny z zasadami INCI obowiązującymi w Europie'
+            font_name: 'LexendDeca-VariableFont_wght.ttf'
+            font_size: '14sp'
+            theme_text_color: 'Custom'
+            text_color: 'white'
+        MDLabel:
+            halign: 'left'
+            text: '-1 Produkt niekosmetyczny'
+            font_name: 'LexendDeca-VariableFont_wght.ttf'
+            font_size: '14sp'
+            theme_text_color: 'Custom'
+            text_color: 'white'
+        MDLabel:
+            halign: 'left'
+            text: '0 Brak kompozycji'
+            font_name: 'LexendDeca-VariableFont_wght.ttf'
+            font_size: '14sp'
+            theme_text_color: 'Custom'
+            text_color: 'white'
+        MDLabel:
+            halign: 'left'
+            text: '1 Kompozycja pobrana online bez sprawdzania produktu'
+            font_name: 'LexendDeca-VariableFont_wght.ttf'
+            font_size: '14sp'
+            theme_text_color: 'Custom'
+            text_color: 'white'
+        MDLabel:
+            halign: 'left'
+            text: '2 Skład certyfikowany przez markę'
+            font_name: 'LexendDeca-VariableFont_wght.ttf'
+            font_size: '14sp'
+            theme_text_color: 'Custom'
+            text_color: 'white'
+        MDLabel:
+            halign: 'left'
+            text: '3 Skład zweryfikowany na produkcie'
+            font_name: 'LexendDeca-VariableFont_wght.ttf'
+            font_size: '14sp'
+            theme_text_color: 'Custom'
+            text_color: 'white'
+
+
+<InformationPage>:
+    name: 'information_page'
+
+    canvas.before:
+        Rectangle:
+            source: 'bg.png'
+            pos: self.pos
+            size: self.size
+
+    # main container
+    MDBoxLayout:
+        orientation: 'vertical'
+        padding: 15
+        spacing: 10
+
+        MDBoxLayout:
+            md_bg_color: 203/255, 213/255, 192/255, 1
+            orientation: 'vertical'
+            pos_hint: {'center_x': 0.5}
+            halign: 'center'
+            padding: 20
+            spacing: 10
+
+            MDGridLayout:
+                cols: 1
+                rows: 3
+
+                MDGridLayout:
+                    cols: 2
+                    rows: 1
+                    adaptive_size: True
+                    pos_hint: {'center_x': 0.5}
+                    halign: 'center'
+                    spacing: 7
+
+                    MDLabel:
+                        adaptive_size: True
+                        halign: 'center'
+                        text: 'Product name: '
+                        font_name: 'LexendDeca-VariableFont_wght.ttf'
+                        font_size: '14sp'
+                        theme_text_color: 'Custom'
+                        text_color: 'black'
+
+                    MDLabel:
+                        id: product_name
+                        adaptive_size: True
+                        text: ' --- name ---'
+                        font_name: 'LexendDeca-VariableFont_wght.ttf'
+                        font_size: '14sp'
+                        theme_text_color: 'Custom'
+                        text_color: 'black'
+
+                MDLabel:
+                    adaptive_size: True
+                    text: 'Ingredients: '
+                    font_name: 'LexendDeca-VariableFont_wght.ttf'
+                    font_size: '14sp'
+                    theme_text_color: 'Custom'
+                    text_color: 'black'
+
+                ScrollView:
+                    adaptive_size: True
+                    multiline: True
+                    do_scroll_x: False
+                    do_scroll_y: True
+
+                    MDLabel:
+                        id: ingr_show
+                        text: " 1 2 3 4  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@   ation in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc. the majority have suffered alteration in some form, by injected humour,the majority have suffered alteration in some form, by injected humour,the majority have suffered alteration in some form, by injected humour,the majority have suffered alteration in some form, by injected humour,the majority have suffered alteration in some form, by injected humour,the majority have suffered alteration in some form, by injected humour,the majority have suffered alteration in some form, by injected humour,the majority have suffered alteration in some form, by injected humour,"
+                        font_name: 'LexendDeca-VariableFont_wght.ttf'
+                        font_size: '14sp'
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                        text_size: self.width, None
+
+
+        MDBoxLayout:
+            orientation: 'horizontal'
+
+            #inci
+            Button:
+
+
+    #### container for back button and popup button
+        MDBoxLayout:
+            orientation: 'horizontal'
+            adaptive_size: True
+            pos_hint: {'center_x':0.5}
+            spacing: 20
+            padding: 14
+
+        ######### back button #########
+            MDBoxLayout:
+                orientation: 'vertical'
+                size_hint: .2, .1
+                pos_hint: {'center_x':0.5}
+
+            MDIconButton:
+                icon: 'keyboard-backspace'
+                theme_text_color: "Custom"
+                text_color: "white"
+                background_normal: ''
+                md_bg_color: 0, 0, 0, 0
+                pos_hint: {'center_x':0.5}
+
+                canvas.before:
+                    Color:
+                        rgb: 191/255, 126/255, 120/255, 1
+                    RoundedRectangle:
+                        size: self.size
+                        pos: self.pos
+                        radius: [360]
+
+                on_press:
+                    app.root.current = 'main'
+                    root.manager.transition.direction = 'right'
+
+        ###### popup information legend #######
+            MDBoxLayout:
+                orientation: 'vertical'
+                size_hint: .2, .1
+                pos_hint: {'center_x':0.5}
+
+            MDIconButton:
+                icon: 'information-variant'
+                theme_text_color: "Custom"
+                text_color: "white"
+                background_normal: ''
+                md_bg_color: 0, 0, 0, 0
+                pos_hint: {'center_x':0.5}
+
+                canvas.before:
+                    Color:
+                        rgb: 244/255, 143/255, 117/255, 1
+                    RoundedRectangle:
+                        size: self.size
+                        pos: self.pos
+                        radius: [360]
+
+                on_release: Factory.MyPopup().open()
+
+    ######### footer #########
+        MDBoxLayout:
+            orientation: 'vertical'
+            size_hint: None, None
+            size: 50,10
+            MDLabel:
+                text: '  '
+
+        MDBoxLayout:
+            orientation: 'vertical'
+            size_hint: 0.5, .1
+            pos_hint: {'center_x': 0.5}
+            halign: 'center'
+
+            MDGridLayout:
+                cols: 3
+
+                MDIconButton:
+                    size_hint: 1,1
+                    col: 1
+                    icon: 'account-circle-outline'
+
+                MDIconButton:
+                    size_hint: 1,1
+                    col: 2
+                    icon: 'instagram'
+
+                MDIconButton:
+                    size_hint: 1,1
+                    col: 3
+                    icon: 'facebook'
+
+
+
+

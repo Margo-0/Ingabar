@@ -2,7 +2,8 @@ WindowManager:
     MainScreen:
     ScanBarcodePage:
     SearchIngredientsPage:
-    InformationPage:
+    InformationProductPage:
+    InformationIngredientsPage:
 
 <MainScreen>:
 #background
@@ -319,7 +320,7 @@ WindowManager:
                 #on_press: root.search()
 
                 on_press:
-                    app.root.current = 'information_page'
+                    app.root.current = 'ingr_inf_page'
                     root.manager.transition.direction = 'left'
 
                 canvas.before:
@@ -394,12 +395,13 @@ WindowManager:
                     icon: 'facebook'
 
 #################################################################
-############ FOUrth PAGE - FOR SEARCHING INGREDIENTS #############
+############ PRODUCT PAGE INFORMATION #############
 
+###### popup window properties ######
 #:import Factory kivy.factory.Factory
 
 <MyPopup@Popup>:
-    auto_dismiss: True #jak sie kliknie poza okna to popup sie zamknie
+    auto_dismiss: True
     size_hint: .8, 0.5
     pos_hint: {'center_x': .5, 'center_y': 0.5}
     title: 'Legend: '
@@ -460,9 +462,9 @@ WindowManager:
             theme_text_color: 'Custom'
             text_color: 'white'
 
-
-<InformationPage>:
-    name: 'information_page'
+#########################################
+<InformationProductPage>:
+    name: 'information_prdct_page'
 
     canvas.before:
         Rectangle:
@@ -539,10 +541,62 @@ WindowManager:
 
 
         MDBoxLayout:
-            orientation: 'horizontal'
+            orientation: 'vertical'
+            #adaptive_size: True
+            pos_hint: {'center_x':0.5}
+            size_hint: 1, 0.35
+            spacing: 20
+            padding: 14
 
             #inci
-            Button:
+            MDGridLayout:
+                cols: 3
+                rows: 1
+                spacing: 20
+
+                Button:
+                    text: 'INCI'
+
+                    font_name: 'LexendDeca-VariableFont_wght.ttf'
+                    font_size: '14sp'
+                    background_normal: ''
+                    background_color: 0, 0, 0, 0
+
+                    canvas.before:
+                        Color:
+                            rgb: 191/255, 126/255, 120/255, 1
+                        RoundedRectangle:
+                            size: self.size
+                            pos: self.pos
+                            radius: [360]
+
+                Button:
+                    text: 'Alergens'
+                    font_name: 'LexendDeca-VariableFont_wght.ttf'
+                    font_size: '14sp'
+                    background_normal: ''
+                    background_color: 0, 0, 0, 0
+                    canvas.before:
+                        Color:
+                            rgb: 191/255, 126/255, 120/255, 1
+                        RoundedRectangle:
+                            size: self.size
+                            pos: self.pos
+                            radius: [360]
+
+                Button:
+                    text: 'PEH'
+                    font_name: 'LexendDeca-VariableFont_wght.ttf'
+                    font_size: '14sp'
+                    background_normal: ''
+                    background_color: 0, 0, 0, 0
+                    canvas.before:
+                        Color:
+                            rgb: 191/255, 126/255, 120/255, 1
+                        RoundedRectangle:
+                            size: self.size
+                            pos: self.pos
+                            radius: [360]
 
 
     #### container for back button and popup button
@@ -635,6 +689,16 @@ WindowManager:
                     col: 3
                     icon: 'facebook'
 
+#####################################################################
+########## INGREDIENTS INFORMATION PAGE #############################
+
+<InformationIngredientsPage>:
+    name: 'ingr_inf_page'
+    canvas.before:
+        Rectangle:
+            source: 'bg.png'
+            pos: self.pos
+            size: self.size
 
 
 

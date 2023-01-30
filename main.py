@@ -19,7 +19,11 @@ from kivy.properties import ObjectProperty, NumericProperty, StringProperty
 Window.size = (360, 640)
 
 
-class InformationPage(MDScreen):
+class InformationIngredientsPage(MDScreen):
+    pass
+
+
+class InformationProductPage(MDScreen):
     pass
 
 

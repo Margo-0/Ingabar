@@ -97,7 +97,7 @@ WindowManager:
                             radius: [20]
 
                     on_press:
-                        app.root.current = 'thr_page'
+                        app.root.current = 'search_ingr_page'
                         root.manager.transition.direction = 'left'
 
 
@@ -152,15 +152,15 @@ WindowManager:
             id: 'ScanField'
             orientation: 'vertical'
             pos_hint: {'center_x':0.5}
-            # ZBarCam:
-            #     id: zbarcam
-            #     # optional, by default checks all types
-            #     code_types: ZBarSymbol.QRCODE, ZBarSymbol.EAN13
-            #     on_symbols: root.get_product_by_ean(self.symbols)
-            # Label:
-            #     size_hint: None, None
-            #     size: self.texture_size[0], 50
-            #     text: ', '.join([str(symbol.data) for symbol in zbarcam.symbols])
+            ZBarCam:
+                id: zbarcam
+                 # optional, by default checks all types
+                code_types: ZBarSymbol.QRCODE, ZBarSymbol.EAN13
+                on_symbols: root.get_product_by_ean(self.symbols)
+            Label:
+                size_hint: None, None
+                size: self.texture_size[0], 50
+                text: ', '.join([str(symbol.data) for symbol in zbarcam.symbols])
 
             #Name of the prdct
         MDBoxLayout:
@@ -198,7 +198,10 @@ WindowManager:
                 font_size: '14sp'
                 background_normal: ''
                 background_color: 0, 0, 0, 0
-                # on_press: root.get_product()
+                #on_press: root.get_product()
+                on_press:
+                    app.root.current = 'information_prdct_page'
+                    root.manager.transition.direction = 'left'
 
                 canvas.before:
                     Color:
@@ -269,10 +272,10 @@ WindowManager:
 
 
 #################################################################
-############ THIRD PAGE - FOR SEARCHING INGREDIENTS #############
+############ SEARCHING INGREDIENTS #############
 
 <SearchIngredientsPage>:
-    name: 'thr_page'
+    name: 'search_ingr_page'
     #print_ingr_text_input: search_ingr_field
     canvas.before:
         Rectangle:
@@ -394,9 +397,7 @@ WindowManager:
                     col: 3
                     icon: 'facebook'
 
-#################################################################
-############ PRODUCT PAGE INFORMATION #############
-
+#########################################
 ###### popup window properties ######
 #:import Factory kivy.factory.Factory
 
@@ -462,9 +463,13 @@ WindowManager:
             theme_text_color: 'Custom'
             text_color: 'white'
 
-#########################################
+
+#################################################################
+############ PRODUCT PAGE INFORMATION #############
+
 <InformationProductPage>:
     name: 'information_prdct_page'
+    pass_product_name: product_name
 
     canvas.before:
         Rectangle:
@@ -493,14 +498,18 @@ WindowManager:
                 MDGridLayout:
                     cols: 2
                     rows: 1
-                    adaptive_size: True
+                    #adaptive_size: True
+                    size_hint: 1, 0.35
                     pos_hint: {'center_x': 0.5}
                     halign: 'center'
                     spacing: 7
 
                     MDLabel:
-                        adaptive_size: True
-                        halign: 'center'
+                        #adaptive_size: True
+                        #pos_hint: {'top':1}
+                        #halign: 'center'
+                        valign: 'top'
+                        size_hint: 0.3, 0.4
                         text: 'Product name: '
                         font_name: 'LexendDeca-VariableFont_wght.ttf'
                         font_size: '14sp'
@@ -509,7 +518,8 @@ WindowManager:
 
                     MDLabel:
                         id: product_name
-                        adaptive_size: True
+                        #adaptive_size: True
+                        size_hint: 1, .4
                         text: ' --- name ---'
                         font_name: 'LexendDeca-VariableFont_wght.ttf'
                         font_size: '14sp'

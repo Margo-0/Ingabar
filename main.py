@@ -4,6 +4,8 @@ from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.lang import Builder
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
+from kivymd.uix.boxlayout import MDBoxLayout
+from kivymd.uix.list import OneLineListItem
 from kivymd.uix.screen import MDScreen
 from Barcode_Scanner import Barcode_Scanner_Label
 from kivymd.uix.button.button import MDRaisedButton
@@ -24,7 +26,11 @@ class InformationIngredientsPage(MDScreen):
 
 
 class InformationProductPage(MDScreen):
-    pass
+    productData = None
+    passProductName = StringProperty('')
+
+
+
 
 
 class SearchIngredientsPage(MDScreen):
@@ -53,8 +59,10 @@ class SearchIngredientsPage(MDScreen):
                 print(ingr_response.json())
 
 
+
 class ScanBarcodePage(MDScreen):
     scannedEAN = ''
+
     def get_product_by_ean(self, symbols):
         if symbols is not None and len(symbols) > 0:
             symbol = symbols[0]
@@ -63,8 +71,7 @@ class ScanBarcodePage(MDScreen):
                 self.scannedEAN = data
                 self.get_product()
 
-            print(self.scannedEAN)
-
+            #print(self.scannedEAN)
 
     def get_product(self):
         secretKey = "RiOrjHCoyneB4MNVV3P60ieFrlLaBP6l"
@@ -73,16 +80,36 @@ class ScanBarcodePage(MDScreen):
         url = f"https://api.incibeauty.com/product/composition/{self.scannedEAN}?locale=pl_PL&accessKeyId=bdf0a6c6289df4c7&hmac={hmac_val}"
         response = requests.get(url)
         product = response.json()
-        print(response.json())
-        print(self.scannedEAN)
+        #print(response.json())
+        #print(self.scannedEAN)
         name = f"{product['brand']} {product['name']}"
         self.ids.NameOfThePrdct.text = name
+        self.manager.get_screen('information_prdct_page').ids.product_name.text = name
+        ingr = product.get('compositions')[0].get('ingredients')
+        list_of_names = [x['official_name'] for x in ingr]
+        print(list_of_names)
+        self.manager.get_screen('information_prdct_page').ids.ingr_show.text = ', '.join(list_of_names)
+        self.manager.get_screen('information_prdct_page').productData = product
 
 
 class MainScreen(MDScreen):
 
     def scan(self):
         print("działa!")
+
+
+class SearchHistoryPage(MDScreen):
+    def __init__(self, **kwargs):
+        self.list_elements = ['element 1', 'element 2', 'element 3']
+        super(SearchHistoryPage, self).__init__(**kwargs)
+        print(self.ids)
+        # for element in self.list_elements:
+        #     self.ids.products.add_widget(OneLineListItem(text=element))
+    # def __init__(self, **kwargs):
+    #     i = 5
+        #self.list_elements = ['element 1', 'element 2', 'element 3']
+    # for element in self.list_elements:
+    #     self.ids.products.add_widget(OneLineListItem(text=element))
 
 
 class WindowManager(ScreenManager):
@@ -92,6 +119,7 @@ class WindowManager(ScreenManager):
 class MyApp(MDApp):
     def search(self):
         print(self.root.ids.search_ingr_field.text)
+
     def build(self):
         root = Builder.load_file("main_page.kv")
 

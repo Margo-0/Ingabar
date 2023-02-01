@@ -136,6 +136,7 @@ WindowManager:
 
     name: 'second_page'
     enter_ean_man: enter_ean
+
     canvas.before:
         Rectangle:
             source: 'bg.png'
@@ -342,7 +343,6 @@ WindowManager:
                 font_size: '14sp'
                 background_normal: ''
                 background_color: 0, 0, 0, 0
-                # on_press: root.search()
 
                 on_press:
                     root.search()
@@ -521,16 +521,12 @@ WindowManager:
                 MDGridLayout:
                     cols: 2
                     rows: 1
-                    #adaptive_size: True
                     size_hint: 1, 0.35
                     pos_hint: {'center_x': 0.5}
                     halign: 'center'
                     spacing: 7
 
                     MDLabel:
-                        #adaptive_size: True
-                        #pos_hint: {'top':1}
-                        #halign: 'center'
                         valign: 'top'
                         size_hint: 0.3, 0.4
                         text: 'Product name: '
@@ -541,7 +537,6 @@ WindowManager:
 
                     MDLabel:
                         id: product_name
-                        #adaptive_size: True
                         size_hint: 1, .4
                         text: ' --- name ---'
                         font_name: 'LexendDeca-VariableFont_wght.ttf'
@@ -565,7 +560,7 @@ WindowManager:
 
                     MDLabel:
                         id: ingr_show
-                        text: " 1 2 3 4  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@   ation in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc. the majority have suffered alteration in some form, by injected humour,the majority have suffered alteration in some form, by injected humour,the majority have suffered alteration in some form, by injected humour,the majority have suffered alteration in some form, by injected humour,the majority have suffered alteration in some form, by injected humour,the majority have suffered alteration in some form, by injected humour,the majority have suffered alteration in some form, by injected humour,the majority have suffered alteration in some form, by injected humour,"
+                        # text: " 1 2 3 4  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@   ation in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc. the majority have suffered alteration in some form, by injected humour,the majority have suffered alteration in some form, by injected humour,the majority have suffered alteration in some form, by injected humour,the majority have suffered alteration in some form, by injected humour,the majority have suffered alteration in some form, by injected humour,the majority have suffered alteration in some form, by injected humour,the majority have suffered alteration in some form, by injected humour,the majority have suffered alteration in some form, by injected humour,"
                         font_name: 'LexendDeca-VariableFont_wght.ttf'
                         font_size: '14sp'
                         size_hint_y: None

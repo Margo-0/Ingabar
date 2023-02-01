@@ -35,32 +35,36 @@ class SearchIngredientsPage(MDScreen):
 
     def search(self):
         self.getIngr = self.print_ingr_text_input.text.upper()
-        self.splitted = self.getIngr.split(',')
-        print(self.splitted[0])
-        secretKey = "RiOrjHCoyneB4MNVV3P60ieFrlLaBP6l"
-        accessKey = "bdf0a6c6289df4c7"
+        if self.getIngr == "":
+            self.manager.get_screen('search_ingr_page').ids.search_ingr_field.hint_text =  'Field is empty'
+            return
 
-        for item in self.splitted:
-            self.unified_item = item.strip().replace("/", " ").replace(" ", "+")
-            #print(self.unified_item)
-            path = f"/ingredient/search/{self.unified_item}?accessKeyId={accessKey}"
-            hmac_val = hmac.new(bytes(secretKey, "UTF-8"), path.encode("UTF-8"), hashlib.sha256).hexdigest()
-            url = f"http://api.incibeauty.com/ingredient/search/{self.unified_item}?accessKeyId={accessKey}&hmac={hmac_val}"
-            response = requests.get(url)
-            parsed = response.json()
-            print(parsed)
-            parsed_ingr = [x for x in parsed['docs'] if x['inci_name'] == item.strip()]
+        else:
 
-            #tutaj dac sprawdzanie czy pole jest puste czy nie
+            self.splitted = self.getIngr.split(',')
+            print(self.splitted[0])
+            secretKey = "RiOrjHCoyneB4MNVV3P60ieFrlLaBP6l"
+            accessKey = "bdf0a6c6289df4c7"
 
-            for ingr in parsed_ingr:
-                ingr_path = f"/ingredient/{ingr['identifier']}?locale=pl_PL&accessKeyId={accessKey}"
-                ingr_hmac = hmac.new(bytes(secretKey, "UTF-8"), ingr_path.encode("UTF-8"), hashlib.sha256).hexdigest()
-                ingr_url = f"http://api.incibeauty.com/ingredient/{ingr['identifier']}?locale=pl_PL&accessKeyId={accessKey}&hmac={ingr_hmac}"
-                ingr_response = requests.get(ingr_url)
-                getInciName = ingr_response.json().get("inci_name")
-                self.InciDescr = ingr_response.json().get("description")
-                self.manager.get_screen('ingr_inf_page').ids.ingr_show.text += f'{getInciName}:  {self.InciDescr}, \n'
+            for item in self.splitted:
+                self.unified_item = item.strip().replace("/", " ").replace(" ", "+")
+                #print(self.unified_item)
+                path = f"/ingredient/search/{self.unified_item}?accessKeyId={accessKey}"
+                hmac_val = hmac.new(bytes(secretKey, "UTF-8"), path.encode("UTF-8"), hashlib.sha256).hexdigest()
+                url = f"http://api.incibeauty.com/ingredient/search/{self.unified_item}?accessKeyId={accessKey}&hmac={hmac_val}"
+                response = requests.get(url)
+                parsed = response.json()
+                print(parsed)
+                parsed_ingr = [x for x in parsed['docs'] if x['inci_name'] == item.strip()]
+
+                for ingr in parsed_ingr:
+                    ingr_path = f"/ingredient/{ingr['identifier']}?locale=pl_PL&accessKeyId={accessKey}"
+                    ingr_hmac = hmac.new(bytes(secretKey, "UTF-8"), ingr_path.encode("UTF-8"), hashlib.sha256).hexdigest()
+                    ingr_url = f"http://api.incibeauty.com/ingredient/{ingr['identifier']}?locale=pl_PL&accessKeyId={accessKey}&hmac={ingr_hmac}"
+                    ingr_response = requests.get(ingr_url)
+                    getInciName = ingr_response.json().get("inci_name")
+                    self.InciDescr = ingr_response.json().get("description")
+                    self.manager.get_screen('ingr_inf_page').ids.ingr_show.text += f'{getInciName}:  {self.InciDescr}, \n'
 
 
 
@@ -76,17 +80,16 @@ class ScanBarcodePage(MDScreen):
                 self.scannedEAN = data
                 self.get_product()
 
-            #print(self.scannedEAN)
-
     def get_product(self):
 
-        #tutaj tez sprawdaanie czy pole jest puste
         self.EntermanEan = self.enter_ean_man.text
 
         if self.EntermanEan:
             self.scannedEAN = self.EntermanEan
-        #else:
-
+        else:
+            if self.scannedEAN == '':
+                self.manager.get_screen('second_page').ids.enter_ean.hint_text =  'Field is empty'
+                return
 
         secretKey = "RiOrjHCoyneB4MNVV3P60ieFrlLaBP6l"
         path = f"/product/composition/{self.scannedEAN}?locale=pl_PL&accessKeyId=bdf0a6c6289df4c7"
@@ -94,8 +97,6 @@ class ScanBarcodePage(MDScreen):
         url = f"https://api.incibeauty.com/product/composition/{self.scannedEAN}?locale=pl_PL&accessKeyId=bdf0a6c6289df4c7&hmac={hmac_val}"
         response = requests.get(url)
         product = response.json()
-        #print(response.json())
-        #print(self.scannedEAN)
         name = f"{product['brand']} {product['name']}"
         self.ids.NameOfThePrdct.text = name
         self.manager.get_screen('information_prdct_page').ids.product_name.text = name
@@ -113,17 +114,7 @@ class MainScreen(MDScreen):
 
 
 class SearchHistoryPage(MDScreen):
-    def __init__(self, **kwargs):
-        self.list_elements = ['element 1', 'element 2', 'element 3']
-        super(SearchHistoryPage, self).__init__(**kwargs)
-        print(self.ids)
-        # for element in self.list_elements:
-        #     self.ids.products.add_widget(OneLineListItem(text=element))
-    # def __init__(self, **kwargs):
-    #     i = 5
-        #self.list_elements = ['element 1', 'element 2', 'element 3']
-    # for element in self.list_elements:
-    #     self.ids.products.add_widget(OneLineListItem(text=element))
+    pass
 
 
 class WindowManager(ScreenManager):

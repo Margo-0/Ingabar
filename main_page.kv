@@ -438,49 +438,7 @@ WindowManager:
 
         MDLabel:
             halign: 'left'
-            text: '-3 Podrobiony produkt'
-            font_name: 'LexendDeca-VariableFont_wght.ttf'
-            font_size: '14sp'
-            theme_text_color: 'Custom'
-            text_color: 'white'
-        MDLabel:
-            halign: 'left'
-            text: '-2 Produkt niezgodny z zasadami INCI obowiązującymi w Europie'
-            font_name: 'LexendDeca-VariableFont_wght.ttf'
-            font_size: '14sp'
-            theme_text_color: 'Custom'
-            text_color: 'white'
-        MDLabel:
-            halign: 'left'
-            text: '-1 Produkt niekosmetyczny'
-            font_name: 'LexendDeca-VariableFont_wght.ttf'
-            font_size: '14sp'
-            theme_text_color: 'Custom'
-            text_color: 'white'
-        MDLabel:
-            halign: 'left'
-            text: '0 Brak kompozycji'
-            font_name: 'LexendDeca-VariableFont_wght.ttf'
-            font_size: '14sp'
-            theme_text_color: 'Custom'
-            text_color: 'white'
-        MDLabel:
-            halign: 'left'
-            text: '1 Kompozycja pobrana online bez sprawdzania produktu'
-            font_name: 'LexendDeca-VariableFont_wght.ttf'
-            font_size: '14sp'
-            theme_text_color: 'Custom'
-            text_color: 'white'
-        MDLabel:
-            halign: 'left'
-            text: '2 Skład certyfikowany przez markę'
-            font_name: 'LexendDeca-VariableFont_wght.ttf'
-            font_size: '14sp'
-            theme_text_color: 'Custom'
-            text_color: 'white'
-        MDLabel:
-            halign: 'left'
-            text: '3 Skład zweryfikowany na produkcie'
+            text: 'Product score 0-20. 0 is the worst, 20 is the best score'
             font_name: 'LexendDeca-VariableFont_wght.ttf'
             font_size: '14sp'
             theme_text_color: 'Custom'
@@ -560,7 +518,6 @@ WindowManager:
 
                     MDLabel:
                         id: ingr_show
-                        # text: " 1 2 3 4  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@   ation in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc. the majority have suffered alteration in some form, by injected humour,the majority have suffered alteration in some form, by injected humour,the majority have suffered alteration in some form, by injected humour,the majority have suffered alteration in some form, by injected humour,the majority have suffered alteration in some form, by injected humour,the majority have suffered alteration in some form, by injected humour,the majority have suffered alteration in some form, by injected humour,the majority have suffered alteration in some form, by injected humour,"
                         font_name: 'LexendDeca-VariableFont_wght.ttf'
                         font_size: '14sp'
                         size_hint_y: None
@@ -570,7 +527,6 @@ WindowManager:
 
         MDBoxLayout:
             orientation: 'vertical'
-            #adaptive_size: True
             pos_hint: {'center_x':0.5}
             size_hint: 1, 0.35
             spacing: 20
@@ -583,9 +539,9 @@ WindowManager:
                 spacing: 20
 
                 Button:
-                    text: 'INCI'
-
+                    id: prdct_score
                     font_name: 'LexendDeca-VariableFont_wght.ttf'
+                    halign: 'center'
                     font_size: '14sp'
                     background_normal: ''
                     background_color: 0, 0, 0, 0
@@ -599,8 +555,9 @@ WindowManager:
                             radius: [360]
 
                 Button:
-                    text: 'Alergens'
+                    id: allerg_count
                     font_name: 'LexendDeca-VariableFont_wght.ttf'
+                    halign: 'center'
                     font_size: '14sp'
                     background_normal: ''
                     background_color: 0, 0, 0, 0
@@ -612,19 +569,6 @@ WindowManager:
                             pos: self.pos
                             radius: [360]
 
-                Button:
-                    text: 'PEH'
-                    font_name: 'LexendDeca-VariableFont_wght.ttf'
-                    font_size: '14sp'
-                    background_normal: ''
-                    background_color: 0, 0, 0, 0
-                    canvas.before:
-                        Color:
-                            rgb: 191/255, 126/255, 120/255, 1
-                        RoundedRectangle:
-                            size: self.size
-                            pos: self.pos
-                            radius: [360]
 
 
     #### container for back button and popup button
@@ -735,53 +679,12 @@ WindowManager:
 
         MDLabel:
             halign: 'left'
-            text: '-3 Podrobiony produkt'
+            text: 'Keep in mind, however, that cosmetics that contain large amounts herbal extracts may cause allergic reactions. People knowing that they are allergic to any of the ingredients should avoid it or seek it out hypoallergenic cosmetics in order to minimize the risk of reaction to the cosmetic. In in case of fear of a reaction, an allergy test is necessary a small piece of skin '
             font_name: 'LexendDeca-VariableFont_wght.ttf'
             font_size: '14sp'
             theme_text_color: 'Custom'
             text_color: 'white'
-        MDLabel:
-            halign: 'left'
-            text: '-2 Produkt niezgodny z zasadami INCI obowiązującymi w Europie'
-            font_name: 'LexendDeca-VariableFont_wght.ttf'
-            font_size: '14sp'
-            theme_text_color: 'Custom'
-            text_color: 'white'
-        MDLabel:
-            halign: 'left'
-            text: '-1 Produkt niekosmetyczny'
-            font_name: 'LexendDeca-VariableFont_wght.ttf'
-            font_size: '14sp'
-            theme_text_color: 'Custom'
-            text_color: 'white'
-        MDLabel:
-            halign: 'left'
-            text: '0 Brak kompozycji'
-            font_name: 'LexendDeca-VariableFont_wght.ttf'
-            font_size: '14sp'
-            theme_text_color: 'Custom'
-            text_color: 'white'
-        MDLabel:
-            halign: 'left'
-            text: '1 Kompozycja pobrana online bez sprawdzania produktu'
-            font_name: 'LexendDeca-VariableFont_wght.ttf'
-            font_size: '14sp'
-            theme_text_color: 'Custom'
-            text_color: 'white'
-        MDLabel:
-            halign: 'left'
-            text: '2 Skład certyfikowany przez markę'
-            font_name: 'LexendDeca-VariableFont_wght.ttf'
-            font_size: '14sp'
-            theme_text_color: 'Custom'
-            text_color: 'white'
-        MDLabel:
-            halign: 'left'
-            text: '3 Skład zweryfikowany na produkcie'
-            font_name: 'LexendDeca-VariableFont_wght.ttf'
-            font_size: '14sp'
-            theme_text_color: 'Custom'
-            text_color: 'white'
+
 
 #########################################################
 ########## INGREDIENTS INFORMATION PAGE #################
@@ -843,34 +746,20 @@ WindowManager:
         MDBoxLayout:
             orientation: 'vertical'
             pos_hint: {'center_x':0.5}
-            size_hint: 1, 0.35
+            halign: 'center'
+            size_hint: 0.7, 0.35
             spacing: 20
             padding: 14
 
-            #inci
             MDGridLayout:
                 cols: 3
                 rows: 1
                 spacing: 20
 
                 Button:
-                    text: 'INCI'
-
-                    font_name: 'LexendDeca-VariableFont_wght.ttf'
-                    font_size: '14sp'
-                    background_normal: ''
-                    background_color: 0, 0, 0, 0
-
-                    canvas.before:
-                        Color:
-                            rgb: 191/255, 126/255, 120/255, 1
-                        RoundedRectangle:
-                            size: self.size
-                            pos: self.pos
-                            radius: [360]
-
-                Button:
+                    id: ingr_alerg
                     text: 'Alergens'
+                    halign: 'center'
                     font_name: 'LexendDeca-VariableFont_wght.ttf'
                     font_size: '14sp'
                     background_normal: ''

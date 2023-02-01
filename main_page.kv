@@ -135,6 +135,7 @@ WindowManager:
 <ScanBarcodePage>:
 
     name: 'second_page'
+    enter_ean_man: enter_ean
     canvas.before:
         Rectangle:
             source: 'bg.png'
@@ -162,7 +163,29 @@ WindowManager:
                 size: self.texture_size[0], 50
                 text: ', '.join([str(symbol.data) for symbol in zbarcam.symbols])
 
-            #Name of the prdct
+        MDBoxLayout:
+            orientation: 'vertical'
+            pos_hint: {'center_x':0.5}
+            size_hint: .8, .12
+
+            MDTextField:
+                id: enter_ean
+                hint_text: 'Enter EAN code manually'
+                font_name: 'LexendDeca-VariableFont_wght.ttf'
+                font_size: '14sp'
+                halign: 'Center'
+                background_normal: ''
+                theme_text_color: "Custom"
+                text_color: "white"
+                background_color: 0, 0, 0, 0
+                halign: 'center'
+
+            MDIconButton:
+                icon: 'barcode-scan'
+                on_release: root.get_product()
+                pos_hint: {'center_x':0.5}
+
+
         MDBoxLayout:
             orientation: 'vertical'
             pos_hint: {'center_x':0.5}
@@ -276,7 +299,7 @@ WindowManager:
 
 <SearchIngredientsPage>:
     name: 'search_ingr_page'
-    #print_ingr_text_input: search_ingr_field
+    print_ingr_text_input: search_ingr_field
     canvas.before:
         Rectangle:
             source: 'bg.png'
@@ -301,7 +324,6 @@ WindowManager:
                     multiline: True
                     hint_text: 'Type ingredients'
                     icon_right: 'progress-question'
-                    tooltip_text: 'eara'
                     theme_text_color: "Custom"
                     text_color: "white"
 
@@ -320,9 +342,10 @@ WindowManager:
                 font_size: '14sp'
                 background_normal: ''
                 background_color: 0, 0, 0, 0
-                #on_press: root.search()
+                # on_press: root.search()
 
                 on_press:
+                    root.search()
                     app.root.current = 'ingr_inf_page'
                     root.manager.transition.direction = 'left'
 
@@ -700,8 +723,73 @@ WindowManager:
                     icon: 'facebook'
 
 #####################################################################
-########## INGREDIENTS INFORMATION PAGE #############################
+########## POPUP WINDOW #############################
+#:import Factory kivy.factory.Factory
 
+<IngrPopup@Popup>:
+    auto_dismiss: True
+    size_hint: .8, 0.5
+    pos_hint: {'center_x': .5, 'center_y': 0.5}
+    title: 'Legend: '
+    separator_color: 108/255, 131/255, 140/255, 1
+    title_align: 'center'
+
+    MDBoxLayout:
+        orientation: 'vertical'
+        md_bg_color: 108/255, 131/255, 140/255, 1
+
+        MDLabel:
+            halign: 'left'
+            text: '-3 Podrobiony produkt'
+            font_name: 'LexendDeca-VariableFont_wght.ttf'
+            font_size: '14sp'
+            theme_text_color: 'Custom'
+            text_color: 'white'
+        MDLabel:
+            halign: 'left'
+            text: '-2 Produkt niezgodny z zasadami INCI obowiązującymi w Europie'
+            font_name: 'LexendDeca-VariableFont_wght.ttf'
+            font_size: '14sp'
+            theme_text_color: 'Custom'
+            text_color: 'white'
+        MDLabel:
+            halign: 'left'
+            text: '-1 Produkt niekosmetyczny'
+            font_name: 'LexendDeca-VariableFont_wght.ttf'
+            font_size: '14sp'
+            theme_text_color: 'Custom'
+            text_color: 'white'
+        MDLabel:
+            halign: 'left'
+            text: '0 Brak kompozycji'
+            font_name: 'LexendDeca-VariableFont_wght.ttf'
+            font_size: '14sp'
+            theme_text_color: 'Custom'
+            text_color: 'white'
+        MDLabel:
+            halign: 'left'
+            text: '1 Kompozycja pobrana online bez sprawdzania produktu'
+            font_name: 'LexendDeca-VariableFont_wght.ttf'
+            font_size: '14sp'
+            theme_text_color: 'Custom'
+            text_color: 'white'
+        MDLabel:
+            halign: 'left'
+            text: '2 Skład certyfikowany przez markę'
+            font_name: 'LexendDeca-VariableFont_wght.ttf'
+            font_size: '14sp'
+            theme_text_color: 'Custom'
+            text_color: 'white'
+        MDLabel:
+            halign: 'left'
+            text: '3 Skład zweryfikowany na produkcie'
+            font_name: 'LexendDeca-VariableFont_wght.ttf'
+            font_size: '14sp'
+            theme_text_color: 'Custom'
+            text_color: 'white'
+
+#########################################################
+########## INGREDIENTS INFORMATION PAGE #################
 <InformationIngredientsPage>:
     name: 'ingr_inf_page'
     canvas.before:
@@ -710,5 +798,182 @@ WindowManager:
             pos: self.pos
             size: self.size
 
+    # main container
+    MDBoxLayout:
+        orientation: 'vertical'
+        padding: 15
+        spacing: 10
+
+        MDBoxLayout:
+            md_bg_color: 155/255, 187/255, 169/255, 1
+            orientation: 'vertical'
+            pos_hint: {'center_x': 0.5}
+            halign: 'center'
+            padding: 20
+            spacing: 10
+
+            MDGridLayout:
+                cols: 1
+                spacing: 10
+
+                MDLabel:
+                    text: 'Ingredient name and description:'
+                    halign: 'center'
+                    font_name: 'LexendDeca-VariableFont_wght.ttf'
+                    theme_text_color: 'Custom'
+                    color: 112/255, 120/255, 115/255, 1
+                    font_size: '14sp'
+                    color: 112/255, 120/255, 115/255, 1
+                    adaptive_size: True
+
+                ScrollView:
+                    adaptive_size: True
+                    multiline: True
+                    do_scroll_x: False
+                    do_scroll_y: True
+
+                    MDLabel:
+                        id: ingr_show
+                        font_name: 'LexendDeca-VariableFont_wght.ttf'
+                        theme_text_color: 'Custom'
+                        color: 112/255, 120/255, 115/255, 1
+                        font_size: '14sp'
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                        text_size: self.width, None
 
 
+########################################
+        ##### Indicators #######
+        MDBoxLayout:
+            orientation: 'vertical'
+            pos_hint: {'center_x':0.5}
+            size_hint: 1, 0.35
+            spacing: 20
+            padding: 14
+
+            #inci
+            MDGridLayout:
+                cols: 3
+                rows: 1
+                spacing: 20
+
+                Button:
+                    text: 'INCI'
+
+                    font_name: 'LexendDeca-VariableFont_wght.ttf'
+                    font_size: '14sp'
+                    background_normal: ''
+                    background_color: 0, 0, 0, 0
+
+                    canvas.before:
+                        Color:
+                            rgb: 191/255, 126/255, 120/255, 1
+                        RoundedRectangle:
+                            size: self.size
+                            pos: self.pos
+                            radius: [360]
+
+                Button:
+                    text: 'Alergens'
+                    font_name: 'LexendDeca-VariableFont_wght.ttf'
+                    font_size: '14sp'
+                    background_normal: ''
+                    background_color: 0, 0, 0, 0
+                    canvas.before:
+                        Color:
+                            rgb: 191/255, 126/255, 120/255, 1
+                        RoundedRectangle:
+                            size: self.size
+                            pos: self.pos
+                            radius: [360]
+
+    #### container for back button and popup button
+        MDBoxLayout:
+            orientation: 'horizontal'
+            adaptive_size: True
+            pos_hint: {'center_x':0.5}
+            spacing: 20
+            padding: 14
+
+        ######### back button #########
+            MDBoxLayout:
+                orientation: 'vertical'
+                size_hint: .2, .1
+                pos_hint: {'center_x':0.5}
+
+            MDIconButton:
+                icon: 'keyboard-backspace'
+                theme_text_color: "Custom"
+                text_color: "white"
+                background_normal: ''
+                md_bg_color: 0, 0, 0, 0
+                pos_hint: {'center_x':0.5}
+
+                canvas.before:
+                    Color:
+                        rgb: 191/255, 126/255, 120/255, 1
+                    RoundedRectangle:
+                        size: self.size
+                        pos: self.pos
+                        radius: [360]
+
+                on_press:
+                    app.root.current = 'main'
+                    root.manager.transition.direction = 'right'
+
+        ###### popup information legend #######
+            MDBoxLayout:
+                orientation: 'vertical'
+                size_hint: .2, .1
+                pos_hint: {'center_x':0.5}
+
+            MDIconButton:
+                icon: 'information-variant'
+                theme_text_color: "Custom"
+                text_color: "white"
+                background_normal: ''
+                md_bg_color: 0, 0, 0, 0
+                pos_hint: {'center_x':0.5}
+
+                canvas.before:
+                    Color:
+                        rgb: 244/255, 143/255, 117/255, 1
+                    RoundedRectangle:
+                        size: self.size
+                        pos: self.pos
+                        radius: [360]
+
+                on_release: Factory.IngrPopup().open()
+
+    ######### footer #########
+        MDBoxLayout:
+            orientation: 'vertical'
+            size_hint: None, None
+            size: 50,10
+            MDLabel:
+                text: '  '
+
+        MDBoxLayout:
+            orientation: 'vertical'
+            size_hint: 0.5, .1
+            pos_hint: {'center_x': 0.5}
+            halign: 'center'
+
+            MDGridLayout:
+                cols: 3
+
+                MDIconButton:
+                    size_hint: 1,1
+                    col: 1
+                    icon: 'account-circle-outline'
+
+                MDIconButton:
+                    size_hint: 1,1
+                    col: 2
+                    icon: 'instagram'
+
+                MDIconButton:
+                    size_hint: 1,1
+                    col: 3
+                    icon: 'facebook'

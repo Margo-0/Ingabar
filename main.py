@@ -17,6 +17,8 @@ import hmac
 import hashlib
 import requests
 from kivy.properties import ObjectProperty, NumericProperty, StringProperty, ListProperty
+from DbUtility import DbUtility
+
 Window.size = (360, 640)
 
 
@@ -66,23 +68,17 @@ class SearchIngredientsPage(MDScreen):
                 url = f"http://api.incibeauty.com/ingredient/search/{self.unified_item}?accessKeyId={accessKey}&hmac={hmac_val}"
                 response = requests.get(url)
                 parsed = response.json()
-                #print(parsed)
                 parsed_ingr = [x for x in parsed['docs'] if x['inci_name'] == item.strip()]
-
-
                 for ingr in parsed_ingr:
                     ingr_path = f"/ingredient/{ingr['identifier']}?locale=pl_PL&accessKeyId={accessKey}"
                     ingr_hmac = hmac.new(bytes(secretKey, "UTF-8"), ingr_path.encode("UTF-8"), hashlib.sha256).hexdigest()
                     ingr_url = f"http://api.incibeauty.com/ingredient/{ingr['identifier']}?locale=pl_PL&accessKeyId={accessKey}&hmac={ingr_hmac}"
                     self.ingr_response = requests.get(ingr_url)
-                    #print(self.ingr_response.json())
                     allerg_count += self.getAllergensCount(self.ingr_response.json())
                     getInciName = self.ingr_response.json().get("inci_name")
                     self.InciDescr = self.ingr_response.json().get("description")
                     self.manager.get_screen('ingr_inf_page').ids.ingr_show.text += f'{getInciName}:  {self.InciDescr}, \n'
                     self.manager.get_screen('ingr_inf_page').ids.ingr_alerg.text = f'Allergens: \n{str(allerg_count)}'
-
-
 
 
 class ScanBarcodePage(MDScreen):
@@ -125,6 +121,11 @@ class ScanBarcodePage(MDScreen):
         self.manager.get_screen('information_prdct_page').ids.prdct_score.text = f'Product score \n{str(product.get("score"))}'
         self.manager.get_screen('information_prdct_page').ids.allerg_count.text = f'Allergens: \n{str(add_allerg)}'
 
+        db = DbUtility("IngbarDB")
+        sql = "INSERT INTO Products (barcode, name) VALUES (?, ?)"
+        params = (self.scannedEAN, name)
+        db.execute(sql, params)
+
 
     def getAllergensCount(self, ingredients):
 
@@ -141,8 +142,16 @@ class ScanBarcodePage(MDScreen):
 
 class MainScreen(MDScreen):
 
-    def scan(self):
-        print("działa!")
+    def load_history(self):
+        db = DbUtility("IngbarDB")
+
+        sql = "SELECT * FROM Products"
+        items = db.fetch_all(sql)
+        print(items)
+
+        for item in items:
+            item_text = item[1]
+            self.manager.get_screen('search_history_page').ids.product_list.add_widget(OneLineListItem(text=item_text))
 
 
 class SearchHistoryPage(MDScreen):
